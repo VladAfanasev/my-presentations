@@ -1,0 +1,133 @@
+/* Google Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700&family=Oxygen:wght@300;400;700&display=swap');
+
+@import "tailwindcss";
+
+/* Base styles */
+html, body, #root {
+  @apply h-full overflow-hidden;
+}
+
+body {
+  @apply m-0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Theme CSS Variables */
+body.theme-personal {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1f1f1f;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6b7280;
+  --accent-primary: #6366f1;
+  --accent-hover: #818cf8;
+  --accent-secondary: #22d3ee;
+  --code-bg: #1e1e2e;
+  --border-color: #2e2e2e;
+
+  /* Brand colors - indigo/blue for personal */
+  --color-brand-primary: #6366f1;
+  --color-brand-secondary: #22d3ee;
+  --color-brand-hover: #818cf8;
+  --color-brand-muted: #4f46e5;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Oxygen', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body.theme-business {
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #6b7280;
+  --accent-primary: #e31837;
+  --accent-hover: #c41230;
+  --accent-secondary: #d6e4f0;
+  --code-bg: #f8f8f8;
+  --border-color: #e5e5e5;
+
+  /* Brand colors - red for qualogy/business */
+  --color-brand-primary: #e31837;
+  --color-brand-secondary: #1a1a1a;
+  --color-brand-hover: #c41230;
+  --color-brand-muted: #f87171;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Chivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 500;
+}
+
+/* Tailwind theme extension for brand colors */
+@theme {
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-secondary: var(--color-brand-secondary);
+  --color-brand-hover: var(--color-brand-hover);
+  --color-brand-muted: var(--color-brand-muted);
+}
+
+/* Code styling */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+pre {
+  @apply font-mono rounded-lg overflow-x-auto;
+}
+
+/* Custom scrollbar for sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Slide animations */
+.slide-enter {
+  @apply opacity-0 translate-x-24;
+}
+
+.slide-enter-active {
+  @apply opacity-100 translate-x-0 transition-all duration-300 ease-out;
+}
+
+.slide-exit {
+  @apply opacity-100 translate-x-0;
+}
+
+.slide-exit-active {
+  @apply opacity-0 -translate-x-24 transition-all duration-300 ease-out;
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+body.theme-personal .focus-ring {
+  @apply focus:ring-indigo-500;
+}
+
+body.theme-business .focus-ring {
+  @apply focus:ring-red-500;
+}
