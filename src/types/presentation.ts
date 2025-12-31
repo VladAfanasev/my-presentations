@@ -28,6 +28,9 @@ export interface ConceptSlide extends SlideBase {
   type: 'concept';
   visual?: 'diagram' | 'flowchart' | 'icon' | 'chart' | 'none';
   icon?: string;
+  svg?: string;
+  mermaid?: string;
+  imagePrompt?: string;
 }
 
 export interface ComparisonSlide extends SlideBase {
@@ -89,6 +92,7 @@ export interface Chapter {
 
 export interface PresentationData {
   meta: PresentationMeta;
+  coverSlide?: TitleSlide;
   chapters: Chapter[];
 }
 
@@ -98,6 +102,7 @@ export interface FlatSlide extends Slide {
   slideInChapterIndex: number;
   chapterId: string;
   chapterTitle: LocalizedText;
+  isCoverSlide?: boolean;
 }
 
 export interface PresentationState {
@@ -116,4 +121,24 @@ export interface GalleryPresentation {
   date: string;
   tags: string[];
   estimatedDuration?: string;
+}
+
+export interface SpeakerNote {
+  slideIndex: number;
+  duration: string;
+  keyPoint: LocalizedText;
+  speakingPoints: LocalizedText[];
+  engagement?: LocalizedText;
+  transition?: LocalizedText;
+}
+
+export interface VisualAsset {
+  type: 'svg' | 'mermaid' | 'image-prompt';
+  content: string;
+  alt: LocalizedText;
+}
+
+export interface PresentationWithNotes extends PresentationData {
+  speakerNotes?: SpeakerNote[];
+  visualAssets?: Record<string, VisualAsset>;
 }

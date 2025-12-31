@@ -158,7 +158,7 @@ export function Presentation({ data }: PresentationProps) {
         }
       />
 
-      {/* Sidebar */}
+      {/* Sidebar - hidden on cover slide (first slide) */}
       <Sidebar
         chapters={data.chapters}
         slides={slides}
@@ -173,6 +173,7 @@ export function Presentation({ data }: PresentationProps) {
           (typeof window !== "undefined" && window.innerWidth > 768)
         }
         onClose={closeSidebar}
+        hideOnCover={currentSlideData?.isCoverSlide === true}
       />
 
       {/* Main Slide Area - Full width/height behind sidebar and header */}

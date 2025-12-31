@@ -24,6 +24,20 @@ export function usePresentation(data: PresentationData) {
     const flatSlides: FlatSlide[] = [];
     let slideIndex = 0;
 
+    // Add cover slide first if it exists
+    if (data.coverSlide) {
+      flatSlides.push({
+        ...data.coverSlide,
+        slideIndex,
+        chapterIndex: -1,
+        slideInChapterIndex: 0,
+        chapterId: 'cover',
+        chapterTitle: { nl: 'Cover', en: 'Cover' },
+        isCoverSlide: true,
+      });
+      slideIndex++;
+    }
+
     data.chapters.forEach((chapter, chapterIndex) => {
       chapter.slides.forEach((slide, slideInChapterIndex) => {
         flatSlides.push({

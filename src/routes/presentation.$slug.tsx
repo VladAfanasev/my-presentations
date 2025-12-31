@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import Presentation from '../components/Presentation'
 import { gettingStartedPresentation } from '../data/presentations'
+import { claudeCodeDxPresentation } from '../data/presentations/claude-code-dx'
 import { PresentationData } from '../types/presentation'
 
 // In a real app, this would fetch from an API or file system
@@ -8,6 +9,8 @@ function getPresentationBySlug(slug: string): PresentationData | null {
   switch (slug) {
     case 'getting-started':
       return gettingStartedPresentation;
+    case 'claude-code-dx':
+      return claudeCodeDxPresentation;
     default:
       return null;
   }

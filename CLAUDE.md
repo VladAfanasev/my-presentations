@@ -144,3 +144,124 @@ export const myPresentation: PresentationData = {
 - Prioritize visuals: diagrams, flowcharts, icons, large numbers
 - Logical narrative flow building understanding progressively
 - Use analogies and metaphors for complex concepts
+
+---
+
+## AI-Powered Presentation Generation
+
+This project includes an AI agent system for creating presentations conversationally.
+
+### How It Works
+
+The system uses Claude Code skills that activate automatically based on your requests:
+
+1. **Discovery**: When you mention "create a presentation" or similar, the discovery skill asks clarifying questions about audience, goals, duration, and visual preferences.
+
+2. **Orchestration**: After discovery, the orchestrator coordinates parallel generation of chapters, visuals, and speaker notes.
+
+3. **Content Generation**: Specialized skills generate slide content following consistent patterns.
+
+4. **Visual Generation**: Supports inline SVG diagrams, Mermaid flowcharts, and image generation prompts.
+
+5. **Speaker Notes**: Full markdown speaker notes with timing, speaking points, and transitions.
+
+### Starting a New Presentation
+
+Simply say something like:
+- "Create a presentation about React Server Components"
+- "I need to present GraphQL to my team"
+- "Help me build slides for a conference talk on microservices"
+
+The discovery agent will guide you through:
+- **Audience**: Who are they? Technical level?
+- **Goals**: What's the key message?
+- **Duration**: How long is the time slot?
+- **Style**: Code-heavy? Visual-focused?
+
+**Note**: All presentations are automatically generated with:
+- **Both languages**: Dutch (NL) + English (EN)
+- **Both themes**: Personal (dark) + Business (light)
+
+### Output Structure
+
+Generated presentations are saved to:
+```
+src/data/presentations/[slug]/
+├── index.ts              # Bilingual presentation data
+├── speaker-notes-en.md   # English speaking guide
+├── speaker-notes-nl.md   # Dutch speaking guide
+├── visuals/              # Theme-compatible diagrams
+└── image-prompts.md      # Prompts for Midjourney/DALL-E
+```
+
+### Language Rules
+
+**Technical terms stay in English** in both Dutch and English text:
+- API, REST, GraphQL, hooks, state, props, component
+- React, Vue, Angular, Node.js, TypeScript
+- CI/CD, Docker, Kubernetes, deployment
+- JSON, SQL, cache, schema, query
+
+```typescript
+// CORRECT
+{ nl: 'Gebruik React hooks voor state management', en: 'Use React hooks for state management' }
+
+// WRONG - never translate technical terms
+{ nl: 'Gebruik Reageer haken voor staatsbeheer', en: '...' }
+```
+
+### Visual Types
+
+**Inline SVG** - Custom diagrams with theme-aware colors:
+```typescript
+{
+  type: 'concept',
+  title: { nl: '...', en: '...' },
+  visual: 'diagram',
+  svg: '<svg viewBox="0 0 400 300">...</svg>'
+}
+```
+
+**Mermaid Diagrams** - Flowcharts, sequences, state machines:
+```typescript
+{
+  type: 'concept',
+  title: { nl: '...', en: '...' },
+  visual: 'flowchart',
+  mermaid: 'flowchart LR\n  A --> B --> C'
+}
+```
+
+**Image Prompts** - For Midjourney/DALL-E generation:
+```typescript
+{
+  type: 'concept',
+  title: { nl: '...', en: '...' },
+  visual: 'diagram',
+  imagePrompt: 'hero-architecture'  // Reference to image-prompts.md
+}
+```
+
+### Skills Available
+
+The following skills are installed in `.claude/skills/`:
+
+| Skill | Description |
+|-------|-------------|
+| `presentation-discovery` | Interactive Q&A to gather requirements |
+| `presentation-orchestrator` | Coordinates multi-agent generation |
+| `slide-content` | Generates slide data with patterns |
+| `visual-generation` | Creates SVG, Mermaid, image prompts |
+| `speaker-notes` | Generates speaking guides with timing |
+
+### Validation
+
+A post-write hook automatically validates presentation files for:
+- TypeScript compilation
+- Bilingual content completeness (nl/en)
+- Required fields and structure
+
+### Full Guide
+
+For comprehensive documentation, see:
+**[.claude/PRESENTATION-GUIDE.md](.claude/PRESENTATION-GUIDE.md)**

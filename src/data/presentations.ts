@@ -249,13 +249,26 @@ export const galleryPresentations: GalleryPresentation[] = [
   {
     slug: 'getting-started',
     title: { nl: 'Aan de Slag', en: 'Getting Started' },
-    description: { 
-      nl: 'Leer hoe dit React-presentatiesysteem werkt.', 
-      en: 'Learn how this React presentation system works.' 
+    description: {
+      nl: 'Leer hoe dit React-presentatiesysteem werkt.',
+      en: 'Learn how this React presentation system works.'
     },
     date: '2025-01-15',
     tags: ['tutorial', 'guide'],
     estimatedDuration: '10 min',
   },
-  // Add more presentations here
+  {
+    slug: 'claude-code-dx',
+    title: {
+      nl: 'Full-Cycle AI Development met Claude Code',
+      en: 'Full-Cycle AI Development with Claude Code'
+    },
+    description: {
+      nl: 'Ontdek hoe je met AI agents, skills en commands je developer experience magisch maakt.',
+      en: 'Discover how to make your developer experience magical with AI agents, skills, and commands.'
+    },
+    date: '2025-01-15',
+    tags: ['claude-code', 'ai', 'dx', 'agents', 'mcp'],
+    estimatedDuration: '20 min',
+  },
 ];

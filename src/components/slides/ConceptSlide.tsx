@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ConceptSlide as ConceptSlideType, Theme } from '../../types/presentation';
 import SlideWrapper from './SlideWrapper';
 
@@ -9,14 +9,89 @@ interface ConceptSlideProps {
   isActive?: boolean;
 }
 
-function VisualElement({ type, icon, theme }: { 
-  type?: string; 
-  icon?: string; 
+function MermaidDiagram({ code, theme }: { code: string; theme: Theme }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const renderMermaid = async () => {
+      if (!containerRef.current) return;
+
+      try {
+        const mermaid = (await import('mermaid')).default;
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: theme === 'personal' ? 'dark' : 'default',
+          themeVariables: theme === 'personal' ? {
+            primaryColor: '#6366f1',
+            primaryTextColor: '#ffffff',
+            primaryBorderColor: '#475569',
+            lineColor: '#94a3b8',
+            secondaryColor: '#1e293b',
+            tertiaryColor: '#0f172a',
+          } : {
+            primaryColor: '#e31837',
+            primaryTextColor: '#1a1a1a',
+            primaryBorderColor: '#d1d5db',
+            lineColor: '#6b7280',
+            secondaryColor: '#f1f5f9',
+            tertiaryColor: '#e2e8f0',
+          },
+        });
+
+        const uniqueId = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const { svg } = await mermaid.render(uniqueId, code);
+        containerRef.current.innerHTML = svg;
+      } catch (error) {
+        console.error('Mermaid rendering error:', error);
+        containerRef.current.innerHTML = `<pre class="text-red-500">Error rendering diagram</pre>`;
+      }
+    };
+
+    renderMermaid();
+  }, [code, theme]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full max-w-3xl my-8 flex items-center justify-center"
+    />
+  );
+}
+
+function SVGDiagram({ svg }: { svg: string }) {
+  return (
+    <div
+      className="w-full max-w-3xl my-8 flex items-center justify-center"
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
+  );
+}
+
+function VisualElement({
+  type,
+  icon,
+  svg,
+  mermaid,
+  theme
+}: {
+  type?: string;
+  icon?: string;
+  svg?: string;
+  mermaid?: string;
   theme: Theme;
 }) {
   const containerClasses = theme === 'personal'
     ? 'bg-slate-800 border-slate-600'
     : 'bg-gray-100 border-gray-300';
+
+  if (svg) {
+    return <SVGDiagram svg={svg} />;
+  }
+
+  if (mermaid) {
+    return <MermaidDiagram code={mermaid} theme={theme} />;
+  }
 
   if (type === 'icon' && icon) {
     return (
@@ -28,7 +103,7 @@ function VisualElement({ type, icon, theme }: {
 
   if (type && type !== 'none') {
     return (
-      <div 
+      <div
         className={`
           w-full max-w-2xl h-64 rounded-xl border-2 my-8
           flex items-center justify-center
@@ -69,9 +144,9 @@ export function ConceptSlide({
   return (
     <SlideWrapper type="concept" theme={theme} isActive={isActive}>
       <div className="max-w-4xl mx-auto space-y-6">
-        <h2 
+        <h2
           className={`
-            text-3xl md:text-4xl lg:text-5xl font-semibold
+            text-2xl md:text-3xl lg:text-4xl font-semibold
             ${titleClasses}
           `}
         >
@@ -89,9 +164,11 @@ export function ConceptSlide({
           </p>
         )}
 
-        <VisualElement 
-          type={slide.visual} 
-          icon={slide.icon} 
+        <VisualElement
+          type={slide.visual}
+          icon={slide.icon}
+          svg={slide.svg}
+          mermaid={slide.mermaid}
           theme={theme}
         />
       </div>

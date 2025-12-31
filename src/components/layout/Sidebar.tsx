@@ -13,6 +13,7 @@ interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
   className?: string;
+  hideOnCover?: boolean;
 }
 
 export function Sidebar({
@@ -27,7 +28,12 @@ export function Sidebar({
   isOpen = true,
   onClose,
   className = "",
+  hideOnCover = false,
 }: SidebarProps) {
+  // Hide sidebar completely on cover slide
+  if (hideOnCover) {
+    return null;
+  }
   const themeClasses =
     theme === "personal"
       ? "border-slate-700 text-white"
@@ -65,9 +71,14 @@ export function Sidebar({
         `}
       >
         <div className="h-full flex flex-col">
-          {/* Header */}
+          {/* Header - clickable to go to cover slide */}
           <div className="px-6 pb-4 pt-20">
-            <h3 className="text-lg font-semibold">Chapters</h3>
+            <button
+              onClick={() => onSlideChange(0)}
+              className="text-lg font-semibold hover:opacity-70 transition-opacity cursor-pointer"
+            >
+              Chapters
+            </button>
           </div>
 
           {/* Navigation */}
