@@ -26,11 +26,17 @@ export interface TitleSlide extends SlideBase {
 
 export interface ConceptSlide extends SlideBase {
   type: 'concept';
-  visual?: 'diagram' | 'flowchart' | 'icon' | 'chart' | 'none';
+  visual?: 'diagram' | 'flowchart' | 'icon' | 'chart' | 'gif' | 'video' | 'none';
   icon?: string;
   svg?: string;
   mermaid?: string;
   imagePrompt?: string;
+  /** Giphy GIF ID (e.g., 'xT9IgzoKnwFNmISR8I') */
+  giphyId?: string;
+  /** Direct GIF URL (alternative to giphyId) */
+  gifUrl?: string;
+  /** Video URL for demo recordings */
+  videoUrl?: string;
 }
 
 export interface ComparisonSlide extends SlideBase {
